@@ -2,12 +2,12 @@
 
 document.addEventListener('deviceready', function () {
   document
-    .getElementById('status')
+    .getElementById('messages')
     .appendChild(document.createElement('b'))
     .appendChild(document.createTextNode('ready'))
   window.sqliteBatchConnectionManager.openDatabaseConnection(function () {
     document
-      .getElementById('status')
+      .getElementById('messages')
       .appendChild(document.createElement('i'))
       .appendChild(document.createTextNode('pong'))
   })
