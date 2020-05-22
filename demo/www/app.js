@@ -39,7 +39,14 @@ function openMemoryDatabaseConnection (openCallback, errorCallback) {
   )
 }
 
-function openFileDatabaseConnection (name, openCallback, errorCallback) {
+const CORRECT_KEY = 'correct'
+
+function openFileDatabaseConnectionWithKey (
+  name,
+  key,
+  openCallback,
+  errorCallback
+) {
   window.sqliteStorageFile.resolveAbsolutePath(
     {
       name: name,
@@ -50,7 +57,7 @@ function openFileDatabaseConnection (name, openCallback, errorCallback) {
       log('database file path: ' + path)
 
       window.sqliteBatchConnectionManager.openDatabaseConnection(
-        { fullName: path, flags: OPEN_DATABASE_FILE_FLAGS },
+        { fullName: path, flags: OPEN_DATABASE_FILE_FLAGS, key: key },
         openCallback,
         errorCallback
       )
@@ -58,6 +65,7 @@ function openFileDatabaseConnection (name, openCallback, errorCallback) {
   )
 }
 
+// (with no password key)
 function openCacheFileDatabaseConnection (name, openCallback, errorCallback) {
   window.resolveLocalFileSystemURL(
     // portable across Android, iOS, & macOS ("osx"):
@@ -107,8 +115,9 @@ function startMemoryDatabaseDemo () {
 }
 
 function startFileDatabaseDemo () {
-  openFileDatabaseConnection(
+  openFileDatabaseConnectionWithKey(
     DATABASE_FILE_NAME,
+    CORRECT_KEY,
     openDatabaseFileCallback,
     function (e) {
       log('UNEXPECTED OPEN ERROR: ' + e)
@@ -121,6 +130,7 @@ function openDatabaseFileCallback (connectionId) {
 
   // ERROR TEST - file name with incorrect flags:
   window.sqliteBatchConnectionManager.openDatabaseConnection(
+    // (with no password key)
     { fullName: 'dummy.db', flags: 0 },
     function (_ignored) {
       log('FAILURE - unexpected open success callback received')
@@ -165,12 +175,39 @@ function batchCallback (batchResults) {
   log('received batch results')
   log(JSON.stringify(batchResults))
 
-  startReaderDemo()
+  startReaderDemoWithWrongKey()
 }
 
-function startReaderDemo () {
-  openFileDatabaseConnection(
+function startReaderDemoWithWrongKey () {
+  openFileDatabaseConnectionWithKey(
     DATABASE_FILE_NAME,
+    'wrong password',
+    function (id) {
+      // This could happen with SQLCipher
+      log('connection id with wrong password key: ' + id)
+      // not expected to work with wrong password key:
+      window.sqliteBatchConnectionManager.executeBatch(
+        id,
+        [['SELECT * FROM Testing', []]],
+        function (res) {
+          log(JSON.stringify(res))
+          // continue with another connection id with correct key
+          startReaderDemoWithCorrectKey()
+        }
+      )
+    },
+    function (e) {
+      log('OK - error as expected with wrong password key')
+      // continue with another connection id with correct password key
+      startReaderDemoWithCorrectKey()
+    }
+  )
+}
+
+function startReaderDemoWithCorrectKey () {
+  openFileDatabaseConnectionWithKey(
+    DATABASE_FILE_NAME,
+    CORRECT_KEY,
     function (id) {
       log('read from another connection id: ' + id)
 
@@ -189,6 +226,7 @@ function startReaderDemo () {
   )
 }
 
+// (with no password key)
 function startCacheFileDemo () {
   openCacheFileDatabaseConnection(
     DATABASE_FILE_NAME,

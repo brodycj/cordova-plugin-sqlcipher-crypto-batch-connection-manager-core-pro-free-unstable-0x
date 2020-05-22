@@ -1,6 +1,6 @@
-# cordova-plugin-sqlite-batch-connection-manager-core-pro-free
+# cordova-plugin-sqlcipher-crypto-batch-connection-manager-core-pro-free
 
-based on: <https://github.com/brodybits/cordova-plugin-sqlite-batch-connection-manager-core>
+based on: <https://github.com/brodybits/cordova-plugin-sqlite-batch-connection-manager-core-pro-free>
 
 Copyright 2020-present Christopher J. Brody <chris.brody+brodybits@gmail.com>
 
