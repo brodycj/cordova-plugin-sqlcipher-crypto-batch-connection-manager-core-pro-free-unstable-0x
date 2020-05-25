@@ -6,3 +6,5 @@ demo/package-lock.json
 demo/platforms/
 demo/plugin/
 demo/plugins/
+android-database-*
+sqlite-fake-*
