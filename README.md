@@ -17,3 +17,11 @@ Copyright 2020-present Christopher J. Brody <chris.brody+brodybits@gmail.com>
 - <http://sqlite.1065341.n5.nabble.com/Is-WAL-mode-more-robust-against-corruption-td99624.html>
 
 uses low-level sqlite-batch-connection-core C & Java component from here: <https://github.com/brodybits/sqlite-batch-connection-core-2020-01>
+
+## Build and Install
+
+**Prerequisite:** Android NDK is required to build for Android
+
+- clone this project from GitHub
+- do `make build
+- do `cordova plugin add` with local path to this plugin
