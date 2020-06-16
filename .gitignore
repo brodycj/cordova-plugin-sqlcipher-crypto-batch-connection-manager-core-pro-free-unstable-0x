@@ -1,6 +1,6 @@
 dist-dependencies
 sqlite-amalgamation-*
-sqlite-batch-connection-*
+sqlite-batch-connection-core*
 demo/local-plugin/
 demo/node_modules/
 demo/package-lock.json
