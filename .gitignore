@@ -5,5 +5,5 @@ demo/node_modules/
 demo/package-lock.json
 demo/platforms/
 demo/plugins/
-android-database-*
+android-database-*-build*
 sqlite-fake-*
