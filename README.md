@@ -24,6 +24,19 @@ This plugin uses the low-level sqlite-batch-connection-core C and Java component
 
 now with background processing included
 
+## pro-free enhancements
+
+- can properly bind text parameters with `u0000` characters, which are needed to properly support the PouchDB collate functionality
+- workaround for memory issues in case of large result sets on Android
+
+NOTICE: In case of large result sets, it is **highly** recommended to use at least cordova-android version 9, which is still under development on GitHub as of mid-June 2020.
+
+To use cordova-android from GitHub:
+
+```sh
+cordova platform add github:apache/cordova-android
+```
+
 ## Build and Install
 
 **Prerequisite:** Android NDK is required to build for Android
