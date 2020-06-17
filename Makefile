@@ -1,13 +1,12 @@
-SQLITE_AMALGAMATION := sqlite-amalgamation-3320200
-SQLITE_ZIP := $(SQLITE_AMALGAMATION).zip
+include android-sqlcipher-glue-jar-build-root.mk
 
 SQLITE_BATCH_CONNECTION_CORE_REMOTE := \
-	https://github.com/brodybits/sqlite-batch-connection-core-pro-free-2020-01
+	https://github.com/brodybits/sqlite-fake-crypto-batch-connection-core-pro-free-2020-01
 
-SQLITE_BATCH_CONNECTION_CORE_ROOT := sqlite-batch-connection-core-pro-free
+SQLITE_BATCH_CONNECTION_CORE_ROOT := sqlite-fake-crypto-batch-connection-core-pro-free
 
 SQLITE_BATCH_CONNECTION_CORE_COMMIT_ID := \
-	077789f3bfdf378ff7532908119c496611e3d814
+	f0dd205a61d3a80c7716ca86ee1e10c74605463c
 
 all:
 	echo 'all not supported' && exit 1
@@ -17,21 +16,21 @@ build: clean fetch-dependencies update-dependencies build-dist-dependencies
 prepare-demo: build prepare-demo-plugins
 
 fetch-dependencies:
-	curl -O https://sqlite.org/2020/$(SQLITE_ZIP)
-	unzip $(SQLITE_ZIP)
 	git clone $(SQLITE_BATCH_CONNECTION_CORE_REMOTE) $(SQLITE_BATCH_CONNECTION_CORE_ROOT)
+	git clone $(ANDROID_SQLCIPHER_JAR_BUILD_REMOTE) $(ANDROID_SQLCIPHER_JAR_BUILD_ROOT)
 
 update-dependencies:
 	(cd $(SQLITE_BATCH_CONNECTION_CORE_ROOT) && git checkout $(SQLITE_BATCH_CONNECTION_CORE_COMMIT_ID))
+	(cd $(ANDROID_SQLCIPHER_JAR_BUILD_ROOT) && git checkout $(ANDROID_SQLCIPHER_JAR_BUILD_COMMIT))
 
 build-dist-dependencies:
-	(cd $(SQLITE_BATCH_CONNECTION_CORE_ROOT)/sccglue && make jar)
+	(cd $(ANDROID_SQLCIPHER_JAR_BUILD_ROOT) && make jar)
 	mkdir dist-dependencies
-	cp $(SQLITE_BATCH_CONNECTION_CORE_ROOT)/sccglue/*.jar dist-dependencies
+	cp $(ANDROID_SQLCIPHER_JAR_BUILD_ROOT)/*.jar dist-dependencies
 	cp $(SQLITE_BATCH_CONNECTION_CORE_ROOT)/android/src/main/java/io/sqlc/SQLiteBatchCore.java dist-dependencies
 	cp $(SQLITE_BATCH_CONNECTION_CORE_ROOT)/sqlite-connection-core.[hc] dist-dependencies
 	cp $(SQLITE_BATCH_CONNECTION_CORE_ROOT)/ios/SQLiteBatchCore.[hm] dist-dependencies
-	cp $(SQLITE_AMALGAMATION)/sqlite3.* dist-dependencies
+	cp $(ANDROID_SQLCIPHER_JAR_BUILD_ROOT)/android-database-sqlcipher/src/main/external/sqlcipher/sqlite3.* dist-dependencies
 
 prepare-demo-plugins:
 	mkdir -p demo/local-plugin
@@ -41,6 +40,8 @@ prepare-demo-plugins:
 
 clean: clean-demo
 	rm -rf sqlite-amalgamation-* sqlite-batch-connection-* dist-dependencies
+	rm -rf android-database-*
+	rm -rf sqlite-fake-*
 
 clean-demo:
 	rm -rf demo/node_modules demo/package-lock.json demo/local-plugin demo/plugins demo/platforms
