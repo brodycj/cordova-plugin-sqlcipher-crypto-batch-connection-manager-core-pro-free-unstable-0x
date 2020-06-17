@@ -39,7 +39,7 @@ prepare-demo-plugins:
 	echo 'use Cordova to add desired platform to the demo before running'
 
 clean: clean-demo
-	rm -rf sqlite-amalgamation-* sqlite-batch-connection-* dist-dependencies
+	rm -rf sqlite-amalgamation-* sqlite-batch-connection-*
 	rm -rf android-database-*
 	rm -rf sqlite-fake-*
 

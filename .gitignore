@@ -1,4 +1,3 @@
-dist-dependencies
 sqlite-amalgamation-*
 sqlite-batch-connection-core*
 demo/local-plugin/
