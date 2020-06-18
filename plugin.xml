@@ -13,6 +13,14 @@
     <lib-file src="dist-dependencies/android-database-sqlcipher-crypto-connection-core-glue-pro-free.jar" />
   </platform>
   <platform name="ios">
+    <!-- using SQLCipher build flags & Apple Security framework ref:
+         - https://www.zetetic.net/sqlcipher/ios-tutorial/
+         - https://www.zetetic.net/blog/2013/6/27/sqlcipher-220-release.html
+         NOTE that the SQLITE_TEMPSTORE setting is REQUIRED to refrain from
+         writing the sensitive data to temp file in unencrypted format ref:
+         - https://www.zetetic.net/sqlcipher/design/
+         - https://www.zetetic.net/sqlcipher/ios-tutorial/
+    - -->
     <config-file target="config.xml" parent="/*">
       <feature name="SQLiteBatchConnectionManager">
         <param name="ios-package" value="SQLiteBatchConnectionManager"/>
@@ -40,6 +48,8 @@
     <framework src="Security.framework" />
   </platform>
   <platform name="osx">
+    <!-- using SQLCipher build flags & Apple Security framework
+         (see notes above) -->
     <config-file target="config.xml" parent="/*">
       <feature name="SQLiteBatchConnectionManager">
         <param name="osx-package" value="SQLiteBatchConnectionManager"/>
