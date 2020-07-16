@@ -2,8 +2,10 @@
 
 package io.sqlc;
 
+/* ** TBD remove background processing for now (...)
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+// (...) */
 
 import java.util.Vector;
 
@@ -360,11 +362,15 @@ public class SQLiteBatchConnectionManager extends CordovaPlugin {
 
       JSONArray data = args.getJSONArray(1);
 
+      /* ** TBD remove background processing for now (...)
       threadPool.execute(new Runnable() {
         public void run() {
+      // (...) */
           executeBatchNow(mydbc, data, cbc);
+      /* ** TBD remove background processing for now (...)
         }
       });
+      // (...) */
     } catch(Exception e) {
       // NOT EXPECTED - internal error:
       cbc.error(e.toString());
@@ -385,11 +391,15 @@ public class SQLiteBatchConnectionManager extends CordovaPlugin {
     }
   }
 
+  /* ** TBD remove background processing for now (...)
   static {
     threadPool = Executors.newCachedThreadPool();
   }
+  // (...) */
 
+  /* ** TBD remove background processing for now (...)
   // This is really an instance of ExecutorService,
   // but only execute from Executor is needed here.
   static private Executor threadPool;
+  // (...) */
 }

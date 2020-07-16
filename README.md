@@ -22,7 +22,7 @@ Note that this plugin uses the `-DSQLITE_DEFAULT_SYNCHRONOUS=3` build setting to
 
 This plugin uses the low-level sqlite-batch-connection-core C and Java components from here: <https://github.com/brodybits/sqlite-batch-connection-core-2020-01>
 
-now with background processing included
+now with background processing included, on iOS and macOS ("osx") only
 
 ## pro-free enhancements
 
